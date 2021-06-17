@@ -17,17 +17,17 @@ void events();
 void admin_login();
 void line();
 
-void teacher_registration(struct teacher&); //function to input and write teacher information into teacher.dat file
-void parent_registration(struct parent&); //function to input and write parent information into teacher.dat file
-void teacher_login(char[], char[]); //function to match user input with teacher information from file
-void parent_login(char[], char[]); //function to match user input with parent information from file
-char username_t[15];	//teacher username
-char password_t[15];	//teacher password
-char username_p[15];	//parent username
-char password_p[15];	//parent password
+void teacher_registration(struct teacher&);		//function to input and write teacher information into teacher.dat file
+void parent_registration(struct parent&);	    //function to input and write parent information into teacher.dat file
+void teacher_login(char[], char[]);				//function to match user input with teacher information from file
+void parent_login(char[], char[]);				//function to match user input with parent information from file
+char username_t[15];							//teacher username
+char password_t[15];							//teacher password
+char username_p[15];							//parent username
+char password_p[15];							//parent password
 bool flag = false;
 
-struct teacher // Teacher structure
+struct teacher									//Teacher structure
 {
 	char full_name[60];
 	char gender[2];
@@ -40,10 +40,10 @@ struct teacher // Teacher structure
 	char password[15];
 }teach;
 
-struct parent //Parent Structure
+struct parent									//Parent Structure
 {
 	char first_name[30];
-	char last_name[30]; //Using First Name last name instead of just full name. Makes it easier to match parent and child
+	char last_name[30];							//Using First Name last name instead of just full name. Makes it easier to match parent and child
 	char gender[2];
 	char DOB[15];
 	char email[51];
