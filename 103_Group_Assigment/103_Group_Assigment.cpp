@@ -7,26 +7,39 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <cstdio>
 
 using namespace std;
 
 void login();
+void teacher_registration(struct teacher&);						//function to input and write teacher information into teacher.dat file
+void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
+void teacher_login(char[], char[]);								//function to match user input with teacher information from file
+void add_record(struct stude&);									//function to add a student record
+void edit_record(struct stude&);								//function to edit a student record
+void delete_record(struct stude&);								//function to delete student record
+void update_record(struct stude&);								//function to update student record
+void view_record(struct stude&);								//function to view student records
+void parent_login(char[], char[]);								//function to match user input with parent information from file
 void contact();
 void term_dates();
 void events();
 void admin_login();
 void line();
-void add_record();
 
-void teacher_registration(struct teacher&);						//function to input and write teacher information into teacher.dat file
-void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
-void teacher_login(char[], char[]);								//function to match user input with teacher information from file
-void parent_login(char[], char[]);								//function to match user input with parent information from file
+																//Global Variables
 char username_t[15];											//teacher username
 char password_t[15];											//teacher password
 char username_p[15];											//parent username
 char password_p[15];											//parent password
 bool flag = false;
+char search_f[30];												//Search first name
+char search_l[30];												//Search last name
+int selection;
+bool done = false;
+
+int student_selection;
+bool student_done = false;
 
 struct teacher													//Teacher structure
 {
@@ -57,12 +70,12 @@ struct parent													//Parent Structure
 	char password[15];
 }paren;
 
-struct student													// Student structure
+struct student													//Student structure
 {
 	char first_name[30];
 	char last_name[30];
 	char gender[2];
-	int english;												// All student marks will be marked 0-100
+	int english;												//All student marks will be marked 0-100
 	int maths;
 	int science;
 	int sports;
@@ -72,15 +85,9 @@ struct student													// Student structure
 	float learning_progress;
 }stude;
 
-int selection;
-bool done = false;
-int student_selection;
-bool student_done = false;
 
 int main()
 {
-
-
 	do {
 		line();
 		cout << "\n\t\t\tSymonds Street Secondary School\n";
@@ -270,13 +277,13 @@ void teacher_login(char username_t[15], char password_t[15])
 					{
 					case 1: add_record(stude);
 						break;
-					case 2:
+					case 2: edit_record(stude);
 						break;
-					case 3:
+					case 3: delete_record(stude);
 						break;
-					case 4:
+					case 4: update_record(stude);
 						break;
-					case 5:
+					case 5: view_record(stude);
 						break;
 					case 6: student_done = true;
 						break;
@@ -308,6 +315,7 @@ void teacher_login(char username_t[15], char password_t[15])
 
 void add_record(struct student& stude)
 {			//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
+
 	fstream file;
 	int student_selection_1;
 	bool student_done_1 = false;
@@ -462,6 +470,119 @@ void add_record(struct student& stude)
 	} while (!student_done_1);
 }
 
+void edit_record(struct student& stude) {
+
+}
+void delete_record(struct student& stude) {
+	ifstream file;
+	ofstream tempfile;
+	bool student_selection_2 = false;
+
+	string f_name, line;
+
+
+	cout << "\n\n\tStudent Delete Record Page";
+	cout << "\n\t1. Class 102.";
+	cout << "\n\t2. Class 103.";
+	cout << "\n\t3. Class 104.";
+	cout << "\n\t4. Return to previous page.";
+	cout << "\n\tPlease select from menu : ";
+	cin >> student_selection_2;
+
+	switch (student_selection_2)
+	{
+	case 1:file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+
+		if (file.is_open()) {
+			cin.ignore();
+			cout << "\n\n\tEnter Student First Name : ";
+			cin.getline(search_f, 30);
+			cout << "\n\tEnter Student Last Name : ";
+			cin.getline(search_l, 30);
+			while (!file.eof()) {
+				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+						cout << "\n\tRecord Found: ";
+						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
+					}
+					else {
+						tempfile.open("temp.dat", ios::out | ios::app | ios::binary);
+						tempfile.write(reinterpret_cast<char*>(&stude), sizeof(stude));
+						tempfile.close();
+					}
+				}
+			}
+		}
+		file.close();
+		remove("class_102.dat");
+		rename("tempfile.dat", "class_102.dat");
+		break;
+
+	case 2:file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+		if (file.is_open()) {
+			cin.ignore();
+			cout << "\n\n\tEnter Student First Name : ";
+			cin.getline(search_f, 30);
+			cout << "\n\tEnter Student Last Name : ";
+			cin.getline(search_l, 30);
+			while (!file.eof()) {
+				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+						cout << "\n\tRecord Found: ";
+						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
+					}
+					else {
+						tempfile.open("temp.dat", ios::out | ios::app | ios::binary);
+						tempfile.write(reinterpret_cast<char*>(&stude), sizeof(stude));
+						tempfile.close();
+					}
+				}
+			}
+		}
+		file.close();
+		remove("class_103.dat");
+		rename("tempfile.dat", "class_103.dat");
+		break;
+
+	case 3:file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+		if (file.is_open()) {
+			cin.ignore();
+			cout << "\n\n\tEnter Student First Name : ";
+			cin.getline(search_f, 30);
+			cout << "\n\tEnter Student Last Name : ";
+			cin.getline(search_l, 30);
+			while (!file.eof()) {
+				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+						cout << "\n\tRecord Found: ";
+						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
+					}
+					else {
+						tempfile.open("temp.dat", ios::out | ios::app | ios::binary);
+						tempfile.write(reinterpret_cast<char*>(&stude), sizeof(stude));
+						tempfile.close();
+					}
+				}
+			}
+		}
+		file.close();
+
+		remove("class_104.dat");
+		rename("tempfile.dat", "class_104.dat");
+		break;
+
+	case 4:
+		break;
+	default:
+		break;
+	}
+}
+void update_record(struct student& stude) {
+
+}
+void view_record(struct student& stude) {
+
+}
 
 void parent_login(char username_p[15], char password_p[15])
 {
