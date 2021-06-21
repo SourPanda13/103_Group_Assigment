@@ -17,17 +17,17 @@ void events();
 void admin_login();
 void line();
 
-void teacher_registration(struct teacher&);		//function to input and write teacher information into teacher.dat file
-void parent_registration(struct parent&);	    //function to input and write parent information into teacher.dat file
-void teacher_login(char[], char[]);				//function to match user input with teacher information from file
-void parent_login(char[], char[]);				//function to match user input with parent information from file
-char username_t[15];							//teacher username
-char password_t[15];							//teacher password
-char username_p[15];							//parent username
-char password_p[15];							//parent password
+void teacher_registration(struct teacher&);						//function to input and write teacher information into teacher.dat file
+void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
+void teacher_login(char[], char[]);								//function to match user input with teacher information from file
+void parent_login(char[], char[]);								//function to match user input with parent information from file
+char username_t[15];											//teacher username
+char password_t[15];											//teacher password
+char username_p[15];											//parent username
+char password_p[15];											//parent password
 bool flag = false;
 
-struct teacher									//Teacher structure
+struct teacher													//Teacher structure
 {
 	char full_name[60];
 	char gender[2];
@@ -40,10 +40,10 @@ struct teacher									//Teacher structure
 	char password[15];
 }teach;
 
-struct parent									//Parent Structure
+struct parent													//Parent Structure
 {
 	char first_name[30];
-	char last_name[30];							//Using First Name last name instead of just full name. Makes it easier to match parent and child
+	char last_name[30];											//Using First Name last name instead of just full name. Makes it easier to match parent and child
 	char gender[2];
 	char DOB[15];
 	char email[51];
@@ -56,11 +56,30 @@ struct parent									//Parent Structure
 	char password[15];
 }paren;
 
+struct student													// Student structure
+{
+	char first_name[30];
+	char last_name[30];
+	char gender[2];
+	int english;												// All student marks will be marked 0-100
+	int maths;
+	int science;
+	int sports;
+	int arts;												    //includes art/music/dancing
+	int social;													//includes history/religous studies/languages
+	int technology;												//includes IT/graphics/design/
+	float learning_progress;
+};
+
+int selection;
+bool done = false;
+student stude;
+int student_selection;
+bool student_done = false;
 
 int main()
 {
-	int selection;
-	bool done = false;
+
 
 	do {
 		line();
@@ -126,9 +145,9 @@ void login() {
 			break;
 		case 2: parent_registration(paren);
 			break;
-		case 3: teacher_login();
+		case 3: teacher_login(username_t, password_t);
 			break;
-		case 4: parent_login();
+		case 4: parent_login(username_p, password_p);
 			break;
 		case 5: login_done = true;
 			break;
@@ -167,7 +186,7 @@ void teacher_registration(struct teacher& teach)
 	cin.getline(teach.password, 15);
 	cout << "\n\n\tTeacher record successfully.\n";
 
-	file.write(reinterpret_cast<char*>(&teach), sizeof(teach)); // storing record in binary
+	file.write(reinterpret_cast<char*>(&teach), sizeof(teach));	// storing record in binary
 
 	file.close();
 }
@@ -207,7 +226,7 @@ void parent_registration(struct parent& paren)
 	cin.getline(paren.password, 15);
 
 
-	file.write(reinterpret_cast<char*>(&paren), sizeof(paren)); // storing record in binary
+	file.write(reinterpret_cast<char*>(&paren), sizeof(paren)); //storing record in binary
 
 	file.close();
 }
@@ -217,7 +236,7 @@ void teacher_login(char username_t[15], char password_t[15])
 	teacher teach;
 	fstream file;
 
-	file.open("teacher_files.dat", ios::in | ios::binary); // opening in read mode
+	file.open("teacher_files.dat", ios::in | ios::binary);		//opening in read mode
 
 	if (file.is_open())
 	{
@@ -233,6 +252,38 @@ void teacher_login(char username_t[15], char password_t[15])
 			if ((strcmp(username_t, teach.username) == 0) && (strcmp(password_t, teach.password) == 0)) // matching user input with information stored on file
 			{
 				// this will be where we put student read/write/edit/delete record function
+
+				do{
+					line();
+					cout << "\n\n\t\tStudent Record Screen";
+					cout << "\n\t1. Add Student.";
+					cout << "\n\t2. Edit Student Record.";
+					cout << "\n\t3. Delete Student Record.";
+					cout << "\n\t4. Update Record.";
+					cout << "\n\t5. View the Records.";
+					cout << "\n\t6. Return to Login Screen.";
+					line();
+					cout << "\n\tPlease enter choice : ";
+					cin >> student_selection;
+
+					switch (student_selection)
+					{
+					case 1: add_record(stude);
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+					case 5:
+						break;
+					case 6: student_done = true;
+						break;
+					default: cout << "\n\tPlease enter correct option.\n";
+						break;
+					}
+				} while (!student_done);
 				cout << "\n\n\tThat's all the information in the file for the search key provided!\n";
 				flag = false;
 				break;
@@ -255,12 +306,169 @@ void teacher_login(char username_t[15], char password_t[15])
 	}
 }
 
+void add_record(struct student& stude)
+{			//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
+	fstream file;
+	int student_selection_1;
+	bool student_done_1 = false;
+	do
+	{
+		cout << "\n\n\tStudent Add Record Page";
+		cout << "\n\t1. Class 102.";
+		cout << "\n\t2. Class 103.";
+		cout << "\n\t3. Class 104.";
+		cout << "\n\t4. Return to previous page.";
+		cout << "\n\tPlease select from menu : ";
+		cin >> student_selection_1;
+
+		switch (student_done_1)
+		{
+		case 1:	file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+			cout << "\n\n\tClass 102 Record.";
+			cout << "\n\tPlease Enter student information.";
+			cin.ignore();
+			cout << "\n\tFirst Name : ";
+			cin.getline(stude.first_name, 30);
+			cout << "\tLast Name : ";
+			cin.getline(stude.last_name, 30);
+			cout << "\tGender (M/F/O) : ";
+			cin.getline(stude.gender, 2);
+			cout << "\tEnglish Mark (0-100) : ";
+			cin >> stude.english;
+			cout << "\tMaths Mark (0-100) : ";
+			cin >> stude.maths;
+			cout << "\tScience Mark (0-100) : ";
+			cin >> stude.science;
+			cout << "\tSports Mark (0-100) : ";
+			cin >> stude.sports;
+			cout << "\tArts Mark (0-100) : ";
+			cin >> stude.arts;
+			cout << "\tSocial Sciences Mark (0-100) : ";
+			cin >> stude.social;
+			cout << "\tTechnology Mark (0-100) : ";
+			cin >> stude.technology;
+			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
+			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
+			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			{
+				cout << "\tAchieved";
+			}
+			else if (stude.learning_progress <= 40)
+			{
+				cout << "\tHelp Needed";
+			}
+			else
+			{
+				cout << "\tProgressing";
+			}
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+
+			file.close();
+			break;
+		case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+			cout << "\n\tPlease Enter your information.";
+			cin.ignore();
+			cout << "\n\n\tClass 103 Record.";
+			cout << "\n\tPlease Enter student information.";
+			cin.ignore();
+			cout << "\n\tFirst Name : ";
+			cin.getline(stude.first_name, 30);
+			cout << "\tLast Name : ";
+			cin.getline(stude.last_name, 30);
+			cout << "\tGender (M/F/O) : ";
+			cin.getline(stude.gender, 2);
+			cout << "\tEnglish Mark (0-100) : ";
+			cin >> stude.english;
+			cout << "\tMaths Mark (0-100) : ";
+			cin >> stude.maths;
+			cout << "\tScience Mark (0-100) : ";
+			cin >> stude.science;
+			cout << "\tSports Mark (0-100) : ";
+			cin >> stude.sports;
+			cout << "\tArts Mark (0-100) : ";
+			cin >> stude.arts;
+			cout << "\tSocial Sciences Mark (0-100) : ";
+			cin >> stude.social;
+			cout << "\tTechnology Mark (0-100) : ";
+			cin >> stude.technology;
+			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
+			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
+			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			{
+				cout << "\tAchieved";
+			}
+			else if (stude.learning_progress <= 40)
+			{
+				cout << "\tHelp Needed";
+			}
+			else
+			{
+				cout << "\tProgressing";
+			}
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+
+			file.close();
+			break;
+		case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+			cout << "\n\tPlease Enter your information.";
+			cin.ignore();
+			cout << "\n\n\tClass 104 Record.";
+			cout << "\n\tPlease Enter student information.";
+			cin.ignore();
+			cout << "\n\tFirst Name : ";
+			cin.getline(stude.first_name, 30);
+			cout << "\tLast Name : ";
+			cin.getline(stude.last_name, 30);
+			cout << "\tGender (M/F/O) : ";
+			cin.getline(stude.gender, 2);
+			cout << "\tEnglish Mark (0-100) : ";
+			cin >> stude.english;
+			cout << "\tMaths Mark (0-100) : ";
+			cin >> stude.maths;
+			cout << "\tScience Mark (0-100) : ";
+			cin >> stude.science;
+			cout << "\tSports Mark (0-100) : ";
+			cin >> stude.sports;
+			cout << "\tArts Mark (0-100) : ";
+			cin >> stude.arts;
+			cout << "\tSocial Sciences Mark (0-100) : ";
+			cin >> stude.social;
+			cout << "\tTechnology Mark (0-100) : ";
+			cin >> stude.technology;
+			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
+			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
+			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			{
+				cout << "\tAchieved";
+			}
+			else if (stude.learning_progress <= 40)
+			{
+				cout << "\tHelp Needed";
+			}
+			else
+			{
+				cout << "\tProgressing";
+			}
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+
+			file.close();
+			break;
+		case 4: student_done_1 = true;
+			break;
+		default: cout << "\n\tPlease enter correct option.\n";
+			break;
+		}
+
+	} while (!student_done_1);
+}
+
+
 void parent_login(char username_p[15], char password_p[15])
 {
 	fstream file;
 	parent paren;
 
-	file.open("parent_files.dat", ios::in | ios::binary); // opening in read mode
+	file.open("parent_files.dat", ios::in | ios::binary);		 // opening in read mode
 
 	if (file.is_open())
 	{
@@ -275,7 +483,7 @@ void parent_login(char username_p[15], char password_p[15])
 			file.read(reinterpret_cast<char*>(&paren), sizeof(paren)); // reading the content from the file 
 			if ((strcmp(username_p, paren.username) == 0) && (strcmp(password_p, paren.password) == 0)) // matching user input with information stored on file
 			{
-				// this will be where we put student read record function
+																// this will be where we put student read record function
 				cout << "\n\nThat's all the information in the file for the search key provided!\n";
 				flag = false;
 				break;
