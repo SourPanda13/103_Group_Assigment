@@ -514,6 +514,7 @@ void delete_record() {
 		break;
 
 	case 2:file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+
 		if (file.is_open()) {
 			cin.ignore();
 			cout << "\n\n\tEnter Student First Name : ";
