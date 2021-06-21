@@ -16,6 +16,7 @@ void term_dates();
 void events();
 void admin_login();
 void line();
+void add_record();
 
 void teacher_registration(struct teacher&);						//function to input and write teacher information into teacher.dat file
 void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
@@ -69,11 +70,10 @@ struct student													// Student structure
 	int social;													//includes history/religous studies/languages
 	int technology;												//includes IT/graphics/design/
 	float learning_progress;
-};
+}stude;
 
 int selection;
 bool done = false;
-student stude;
 int student_selection;
 bool student_done = false;
 
