@@ -12,15 +12,15 @@
 using namespace std;
 
 void login();
-void teacher_registration(struct teacher&);						//function to input and write teacher information into teacher.dat file
-void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
-void teacher_login(char[], char[]);								//function to match user input with teacher information from file
-void add_record(struct stude&);									//function to add a student record
-void edit_record(struct stude&);							//function to edit a student record
-void delete_record(struct stude&);							//function to delete student record
-void update_record(struct stude&);							//function to update student record
-void view_record(struct stude&);							//function to view student records
-void parent_login(char[], char[]);							//function to match user input with parent information from file
+void teacher_registration();						//function to input and write teacher information into teacher.dat file
+void parent_registration();						//function to input and write parent information into teacher.dat file
+void teacher_login();								//function to match user input with teacher information from file
+void add_record();									//function to add a student record
+void edit_record();							//function to edit a student record
+void delete_record();							//function to delete student record
+void update_record();							//function to update student record
+void view_record();							//function to view student records
+void parent_login();							//function to match user input with parent information from file
 void contact();
 void term_dates();
 void events();
@@ -32,14 +32,9 @@ char username_t[15];										//teacher username
 char password_t[15];										//teacher password
 char username_p[15];										//parent username
 char password_p[15];										//parent password
-bool flag = false;
 char search_f[30];											//Search first name
 char search_l[30];											//Search last name
-int selection;
-bool done = false;
-
-
-
+bool flag = false;
 
 
 struct teacher													//Teacher structure
@@ -91,6 +86,8 @@ fstream file;
 int main()
 {
 	int selection;
+	bool done = false;
+
 	do {
 		line();
 		cout << "\n\t\t\tSymonds Street Secondary School\n";
@@ -151,13 +148,13 @@ void login() {
 
 		switch (login_selection)
 		{
-		case 1: teacher_registration(teach);
+		case 1: teacher_registration();
 			break;
-		case 2: parent_registration(paren);
+		case 2: parent_registration();
 			break;
-		case 3: teacher_login(username_t, password_t);
+		case 3: teacher_login();
 			break;
-		case 4: parent_login(username_p, password_p);
+		case 4: parent_login();
 			break;
 		case 5: login_done = true;
 			break;
@@ -167,7 +164,7 @@ void login() {
 	} while (!login_done);
 }
 
-void teacher_registration(struct teacher& teach)
+void teacher_registration()
 {
 	file.open("teacher_files.dat", ios::out | ios::app | ios::binary);
 
@@ -200,7 +197,7 @@ void teacher_registration(struct teacher& teach)
 	file.close();
 }
 
-void parent_registration(struct parent& paren)
+void parent_registration()
 {
 	file.open("parent_files.dat", ios::out | ios::app | ios::binary);
 
@@ -239,7 +236,7 @@ void parent_registration(struct parent& paren)
 	file.close();
 }
 
-void teacher_login(char username_t[15], char password_t[15])
+void teacher_login()
 {
 	int student_selection;
 	bool student_done = false;
@@ -276,17 +273,17 @@ void teacher_login(char username_t[15], char password_t[15])
 
 					switch (student_selection)
 					{
-					case 1: add_record(stude);
+					case 1: add_record();
 						break;
-					case 2: edit_record(stude);
+					case 2: edit_record();
 						break;
-					case 3: delete_record(stude);
+					case 3: delete_record();
 						break;
-					case 4: update_record(stude);
+					case 4: update_record();
 						break;
-					case 5: view_record(stude);
+					case 5: view_record();
 						break;
-					case 6: teacher_login(username_t, password_t);
+					case 6: teacher_login();
 						break;
 					default: cout << "\n\tPlease enter correct option.\n";
 						break;
@@ -314,7 +311,7 @@ void teacher_login(char username_t[15], char password_t[15])
 	}
 }
 
-void add_record(struct student& stude)
+void add_record()
 {			//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
 	bool student_done_1 = false;
 	int student_selection_1;
@@ -461,7 +458,7 @@ void add_record(struct student& stude)
 
 			file.close();
 			break;
-		case 4: //student_done_1 = true;
+		case 4: student_done_1 = true;
 			break;
 		default: cout << "\n\tPlease enter correct option.\n";
 			break;
@@ -470,10 +467,10 @@ void add_record(struct student& stude)
 	} while (!student_done_1);
 }
 
-void edit_record(struct student& stude) {
+void edit_record() {
 
 }
-void delete_record(struct student& stude) {
+void delete_record() {
 	fstream tempfile;
 	int student_selection_2 = false;
 
@@ -575,10 +572,10 @@ void delete_record(struct student& stude) {
 		break;
 	}
 }
-void update_record(struct student& stude) {
+void update_record() {
 
 }
-void view_record(struct student& stude) {
+void view_record() {
 
 	int student_selection_3 = false;
 
@@ -630,7 +627,7 @@ void view_record(struct student& stude) {
 	}
 }
 
-void parent_login(char username_p[15], char password_p[15])
+void parent_login()
 {
 	file.open("parent_files.dat", ios::in | ios::binary);		 // opening in read mode
 
