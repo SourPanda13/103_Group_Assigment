@@ -16,30 +16,31 @@ void teacher_registration(struct teacher&);						//function to input and write t
 void parent_registration(struct parent&);						//function to input and write parent information into teacher.dat file
 void teacher_login(char[], char[]);								//function to match user input with teacher information from file
 void add_record(struct stude&);									//function to add a student record
-void edit_record(struct stude&);								//function to edit a student record
-void delete_record(struct stude&);								//function to delete student record
-void update_record(struct stude&);								//function to update student record
-void view_record(struct stude&);								//function to view student records
-void parent_login(char[], char[]);								//function to match user input with parent information from file
+void edit_record(struct stude&);							//function to edit a student record
+void delete_record(struct stude&);							//function to delete student record
+void update_record(struct stude&);							//function to update student record
+void view_record(struct stude&);							//function to view student records
+void parent_login(char[], char[]);							//function to match user input with parent information from file
 void contact();
 void term_dates();
 void events();
 void admin_login();
 void line();
 
-																//Global Variables
-char username_t[15];											//teacher username
-char password_t[15];											//teacher password
-char username_p[15];											//parent username
-char password_p[15];											//parent password
+															//Global Variables
+char username_t[15];										//teacher username
+char password_t[15];										//teacher password
+char username_p[15];										//parent username
+char password_p[15];										//parent password
 bool flag = false;
-char search_f[30];												//Search first name
-char search_l[30];												//Search last name
+char search_f[30];											//Search first name
+char search_l[30];											//Search last name
 int selection;
 bool done = false;
 
-int student_selection;
-bool student_done = false;
+
+
+
 
 struct teacher													//Teacher structure
 {
@@ -85,9 +86,11 @@ struct student													//Student structure
 	float learning_progress;
 }stude;
 
+fstream file;
 
 int main()
 {
+	int selection;
 	do {
 		line();
 		cout << "\n\t\t\tSymonds Street Secondary School\n";
@@ -166,7 +169,6 @@ void login() {
 
 void teacher_registration(struct teacher& teach)
 {
-	fstream file;
 	file.open("teacher_files.dat", ios::out | ios::app | ios::binary);
 
 	cout << "\n\tTeacher Sign Up";
@@ -200,7 +202,6 @@ void teacher_registration(struct teacher& teach)
 
 void parent_registration(struct parent& paren)
 {
-	fstream file;
 	file.open("parent_files.dat", ios::out | ios::app | ios::binary);
 
 	cout << "\n\tParent Sign Up";
@@ -240,8 +241,8 @@ void parent_registration(struct parent& paren)
 
 void teacher_login(char username_t[15], char password_t[15])
 {
-	teacher teach;
-	fstream file;
+	int student_selection;
+	bool student_done = false;
 
 	file.open("teacher_files.dat", ios::in | ios::binary);		//opening in read mode
 
@@ -285,7 +286,7 @@ void teacher_login(char username_t[15], char password_t[15])
 						break;
 					case 5: view_record(stude);
 						break;
-					case 6: student_done = true;
+					case 6: teacher_login(username_t, password_t);
 						break;
 					default: cout << "\n\tPlease enter correct option.\n";
 						break;
@@ -315,10 +316,9 @@ void teacher_login(char username_t[15], char password_t[15])
 
 void add_record(struct student& stude)
 {			//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
-
-	fstream file;
-	int student_selection_1;
 	bool student_done_1 = false;
+	int student_selection_1;
+
 	do
 	{
 		cout << "\n\n\tStudent Add Record Page";
@@ -329,7 +329,7 @@ void add_record(struct student& stude)
 		cout << "\n\tPlease select from menu : ";
 		cin >> student_selection_1;
 
-		switch (student_done_1)
+		switch (student_selection_1)
 		{
 		case 1:	file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
 			cout << "\n\n\tClass 102 Record.";
@@ -461,7 +461,7 @@ void add_record(struct student& stude)
 
 			file.close();
 			break;
-		case 4: student_done_1 = true;
+		case 4: //student_done_1 = true;
 			break;
 		default: cout << "\n\tPlease enter correct option.\n";
 			break;
@@ -474,11 +474,9 @@ void edit_record(struct student& stude) {
 
 }
 void delete_record(struct student& stude) {
-	ifstream file;
-	ofstream tempfile;
-	bool student_selection_2 = false;
+	fstream tempfile;
+	int student_selection_2 = false;
 
-	string f_name, line;
 
 
 	cout << "\n\n\tStudent Delete Record Page";
@@ -582,13 +580,58 @@ void update_record(struct student& stude) {
 }
 void view_record(struct student& stude) {
 
+	int student_selection_3 = false;
+
+	cout << "\n\n\tStudent View Record Page";
+	cout << "\n\t1. Class 102.";
+	cout << "\n\t2. Class 103.";
+	cout << "\n\t3. Class 104.";
+	cout << "\n\t4. Return to previous page.";
+	cout << "\n\tPlease select from menu : ";
+	cin >> student_selection_3;
+
+	switch (student_selection_3)
+	{
+	case 1: file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+		if (file.is_open()) {
+			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+				cout << "\n\t" << stude.first_name << " " << stude.last_name;
+			}
+		}
+		else {
+			cout << "\n\tUnable to access file...";
+		}
+		file.close();
+		break;
+	case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+		if (file.is_open()) {
+			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+				cout << "\n\t" << stude.first_name << " " << stude.last_name;
+			}
+		}
+		else {
+			cout << "\n\tUnable to access file...";
+		}
+		file.close();
+		break;
+	case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+		if (file.is_open()) {
+			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
+				cout << "\n\t" << stude.first_name << " " << stude.last_name;
+			}
+		}
+		else {
+			cout << "\n\tUnable to access file...";
+		}
+		file.close();
+		break;
+	default:
+		break;
+	}
 }
 
 void parent_login(char username_p[15], char password_p[15])
 {
-	fstream file;
-	parent paren;
-
 	file.open("parent_files.dat", ios::in | ios::binary);		 // opening in read mode
 
 	if (file.is_open())
@@ -642,7 +685,6 @@ void contact() {
 }
 
 void term_dates() {
-
 	line();
 	cout << "\n\n\t\tTerm Dates Page";
 	cout << "\n\n\tFor the school year of 2021 the term dates are as follow : ";
