@@ -1,7 +1,7 @@
 // 103_Group_Assigment.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //103 Group Assignment 
 //Brittany Armstrong 270080234
-//Tim Boyd 
+//Tim Boyd 270043384
 
 #include <iostream>
 #include <fstream>
@@ -575,9 +575,11 @@ void delete_record() {
 		break;
 	}
 }
+
 void update_record() {
 
 }
+
 void view_record() {
 
 	int student_selection_3 = false;
