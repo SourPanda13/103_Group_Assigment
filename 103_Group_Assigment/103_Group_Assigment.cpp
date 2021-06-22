@@ -1,7 +1,7 @@
 // 103_Group_Assigment.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //103 Group Assignment 
-//Brittany Armstrong
-//Tim Boyd
+//Brittany Armstrong 270080234
+//Tim Boyd 
 
 #include <iostream>
 #include <fstream>
@@ -12,32 +12,32 @@
 using namespace std;
 
 void login();
-void teacher_registration();						//function to input and write teacher information into teacher.dat file
-void parent_registration();						//function to input and write parent information into teacher.dat file
-void teacher_login();								//function to match user input with teacher information from file
-void add_record();									//function to add a student record
-void edit_record();							//function to edit a student record
-void delete_record();							//function to delete student record
-void update_record();							//function to update student record
-void view_record();							//function to view student records
-void parent_login();							//function to match user input with parent information from file
+void teacher_registration();									//Function to input and write teacher information into teacher.dat file
+void parent_registration();										//Function to input and write parent information into teacher.dat file
+void teacher_login();											//Function to match user input with teacher information from file
+void add_record();												//Function to add a student record
+void edit_record();												//Function to edit a student record
+void delete_record();											//Function to delete student record
+void update_record();											//Function to update student record
+void view_record();												//Function to view student records
+void parent_login();											//Function to match user input with parent information from file
 void contact();
 void term_dates();
 void events();
 void admin_login();
 void line();
 
-															//Global Variables
-char username_t[15];										//teacher username
-char password_t[15];										//teacher password
-char username_p[15];										//parent username
-char password_p[15];										//parent password
-char search_f[30];											//Search first name
-char search_l[30];											//Search last name
+																//Global Variables
+char username_t[15];											//Teacher username
+char password_t[15];											//Teacher password
+char username_p[15];											//Parent username
+char password_p[15];											//Parent password
+char search_f[30];												//Search first name
+char search_l[30];												//Search last name
 bool flag = false;
 
 
-struct teacher													//Teacher structure
+struct teacher													//Teacher Structure
 {
 	char full_name[60];
 	char gender[2];
@@ -53,7 +53,7 @@ struct teacher													//Teacher structure
 struct parent													//Parent Structure
 {
 	char first_name[30];
-	char last_name[30];											//Using First Name last name instead of just full name. Makes it easier to match parent and child
+	char last_name[30];											//Using first name last name instead of just full name. Makes it easier to match parent and child
 	char gender[2];
 	char DOB[15];
 	char email[51];
@@ -66,7 +66,7 @@ struct parent													//Parent Structure
 	char password[15];
 }paren;
 
-struct student													//Student structure
+struct student													//Student Structure
 {
 	char first_name[30];
 	char last_name[30];
@@ -75,9 +75,9 @@ struct student													//Student structure
 	int maths;
 	int science;
 	int sports;
-	int arts;												    //includes art/music/dancing
-	int social;													//includes history/religous studies/languages
-	int technology;												//includes IT/graphics/design/
+	int arts;												    //Includes art/music/dancing
+	int social;													//Includes history/religous studies/languages
+	int technology;												//Includes IT/graphics/design/
 	float learning_progress;
 }stude;
 
@@ -190,9 +190,9 @@ void teacher_registration()
 	cin.getline(teach.username, 15);
 	cout << "\tPassword (Max 15 letters): ";
 	cin.getline(teach.password, 15);
-	cout << "\n\n\tTeacher record successfully.\n";
+	cout << "\n\n\tTeacher Recorded Successfully.\n";
 
-	file.write(reinterpret_cast<char*>(&teach), sizeof(teach));	// storing record in binary
+	file.write(reinterpret_cast<char*>(&teach), sizeof(teach));	//Storing record in binary
 
 	file.close();
 }
@@ -207,7 +207,7 @@ void parent_registration()
 
 	cout << "\n\n\tFirst Name : ";
 	cin.getline(paren.first_name, 30);
-	cout << "\n\n\tLast Name : ";
+	cout << "\tLast Name : ";
 	cin.getline(paren.last_name, 30);
 	cout << "\tGender(M/F/O) : ";
 	cin.getline(paren.gender, 2);
@@ -229,9 +229,9 @@ void parent_registration()
 	cin.getline(paren.username, 15);
 	cout << "\tPassword (Max 15 letters): ";
 	cin.getline(paren.password, 15);
+	cout << "\n\n\tParent Recorded Successfully.\n";
 
-
-	file.write(reinterpret_cast<char*>(&paren), sizeof(paren)); //storing record in binary
+	file.write(reinterpret_cast<char*>(&paren), sizeof(paren)); //Storing record in binary
 
 	file.close();
 }
@@ -241,7 +241,7 @@ void teacher_login()
 	int student_selection;
 	bool student_done = false;
 
-	file.open("teacher_files.dat", ios::in | ios::binary);		//opening in read mode
+	file.open("teacher_files.dat", ios::in | ios::binary);		//Opening in read mode
 
 	if (file.is_open())
 	{
@@ -253,10 +253,12 @@ void teacher_login()
 
 		while (!file.eof())
 		{
-			file.read(reinterpret_cast<char*>(&teach), sizeof(teach)); // reading the content from the file 
-			if ((strcmp(username_t, teach.username) == 0) && (strcmp(password_t, teach.password) == 0)) // matching user input with information stored on file
+			file.read(reinterpret_cast<char*>(&teach), sizeof(teach)); //Reading the content from the file 
+			if ((strcmp(username_t, teach.username) == 0) && (strcmp(password_t, teach.password) == 0)) //Matching user input with information stored on file
 			{
-				// this will be where we put student read/write/edit/delete record function
+				cout << "\n\tLogin Successful";
+
+				//This will be where we put student read/write/edit/delete record function
 
 				do{
 					line();
@@ -283,7 +285,7 @@ void teacher_login()
 						break;
 					case 5: view_record();
 						break;
-					case 6: teacher_login();
+					case 6: main();
 						break;
 					default: cout << "\n\tPlease enter correct option.\n";
 						break;
@@ -312,7 +314,7 @@ void teacher_login()
 }
 
 void add_record()
-{			//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
+{																//There will be 3 seperate class files where the teacher can store their students record, Class 102/103/104
 	bool student_done_1 = false;
 	int student_selection_1;
 
@@ -328,7 +330,7 @@ void add_record()
 
 		switch (student_selection_1)
 		{
-		case 1:	file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+		case 1:	file.open("class_102.dat", ios::out | ios::app | ios::binary); //Class File 102
 			cout << "\n\n\tClass 102 Record.";
 			cout << "\n\tPlease Enter student information.";
 			cin.ignore();
@@ -354,7 +356,7 @@ void add_record()
 			cin >> stude.technology;
 			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
 			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
-			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			if (stude.learning_progress >= 80)					//We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
 			{
 				cout << "\tAchieved";
 			}
@@ -366,11 +368,11 @@ void add_record()
 			{
 				cout << "\tProgressing";
 			}
-			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); //Storing record in binary
 
 			file.close();
 			break;
-		case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+		case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); //Class File 103
 			cout << "\n\tPlease Enter your information.";
 			cin.ignore();
 			cout << "\n\n\tClass 103 Record.";
@@ -398,7 +400,7 @@ void add_record()
 			cin >> stude.technology;
 			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
 			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
-			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			if (stude.learning_progress >= 80)					//We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
 			{
 				cout << "\tAchieved";
 			}
@@ -410,11 +412,11 @@ void add_record()
 			{
 				cout << "\tProgressing";
 			}
-			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); //Storing record in binary
 
 			file.close();
 			break;
-		case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+		case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); //Class File 104
 			cout << "\n\tPlease Enter your information.";
 			cin.ignore();
 			cout << "\n\n\tClass 104 Record.";
@@ -442,7 +444,7 @@ void add_record()
 			cin >> stude.technology;
 			stude.learning_progress = (stude.english + stude.maths + stude.science + stude.sports + stude.arts + stude.social + stude.technology) / 7;
 			cout << "\tLearning Progress : " << stude.learning_progress; //The Learning progress mark will be stored as a number, it will take all subject marks and deivide by total subjects.
-			if (stude.learning_progress >= 80) //We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
+			if (stude.learning_progress >= 80)					//We display the Achieve/Progressing/Help with if else structure instead of storing it in file as Achieve/Progressing/Help
 			{
 				cout << "\tAchieved";
 			}
@@ -454,7 +456,7 @@ void add_record()
 			{
 				cout << "\tProgressing";
 			}
-			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); // storing record in binary
+			file.write(reinterpret_cast<char*>(&stude), sizeof(stude)); //Storing record in binary
 
 			file.close();
 			break;
@@ -486,7 +488,7 @@ void delete_record() {
 
 	switch (student_selection_2)
 	{
-	case 1:file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+	case 1:file.open("class_102.dat", ios::out | ios::app | ios::binary); //Class File 102
 
 		if (file.is_open()) {
 			cin.ignore();
@@ -496,7 +498,7 @@ void delete_record() {
 			cin.getline(search_l, 30);
 			while (!file.eof()) {
 				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
-					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {//Matching user input with information stored on file
 						cout << "\n\tRecord Found: ";
 						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
 					}
@@ -513,7 +515,7 @@ void delete_record() {
 		rename("tempfile.dat", "class_102.dat");
 		break;
 
-	case 2:file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+	case 2:file.open("class_103.dat", ios::out | ios::app | ios::binary); //Class File 103
 
 		if (file.is_open()) {
 			cin.ignore();
@@ -523,7 +525,7 @@ void delete_record() {
 			cin.getline(search_l, 30);
 			while (!file.eof()) {
 				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
-					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {//Matching user input with information stored on file
 						cout << "\n\tRecord Found: ";
 						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
 					}
@@ -540,7 +542,7 @@ void delete_record() {
 		rename("tempfile.dat", "class_103.dat");
 		break;
 
-	case 3:file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+	case 3:file.open("class_104.dat", ios::out | ios::app | ios::binary); //Class File 104
 		if (file.is_open()) {
 			cin.ignore();
 			cout << "\n\n\tEnter Student First Name : ";
@@ -549,7 +551,7 @@ void delete_record() {
 			cin.getline(search_l, 30);
 			while (!file.eof()) {
 				while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
-					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {// matching user input with information stored on file
+					if ((strcmp(search_f, stude.first_name) == 0) && (strcmp(search_l, stude.last_name) == 0)) {//Matching user input with information stored on file
 						cout << "\n\tRecord Found: ";
 						cout << "\n\tName: " << stude.first_name << " " << stude.last_name;
 					}
@@ -590,7 +592,7 @@ void view_record() {
 
 	switch (student_selection_3)
 	{
-	case 1: file.open("class_102.dat", ios::out | ios::app | ios::binary); // Class File 102
+	case 1: file.open("class_102.dat", ios::out | ios::app | ios::binary); //Class File 102
 		if (file.is_open()) {
 			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
 				cout << "\n\t" << stude.first_name << " " << stude.last_name;
@@ -601,7 +603,7 @@ void view_record() {
 		}
 		file.close();
 		break;
-	case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); // Class File 103
+	case 2: file.open("class_103.dat", ios::out | ios::app | ios::binary); //Class File 103
 		if (file.is_open()) {
 			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
 				cout << "\n\t" << stude.first_name << " " << stude.last_name;
@@ -612,7 +614,7 @@ void view_record() {
 		}
 		file.close();
 		break;
-	case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); // Class File 104
+	case 3: file.open("class_104.dat", ios::out | ios::app | ios::binary); //Class File 104
 		if (file.is_open()) {
 			while (file.read(reinterpret_cast<char*>(&stude), sizeof(stude))) {
 				cout << "\n\t" << stude.first_name << " " << stude.last_name;
@@ -630,22 +632,24 @@ void view_record() {
 
 void parent_login()
 {
-	file.open("parent_files.dat", ios::in | ios::binary);		 // opening in read mode
+	file.open("parent_files.dat", ios::in | ios::binary);	    //Opening in read mode
 
 	if (file.is_open())
 	{
 		cin.ignore();
 		cout << "\n\n\tEnter Parent Username : ";
-		cin.getline(username_t, 15);
+		cin.getline(username_p, 15);
 		cout << "\n\tEnter Parent Password : ";
-		cin.getline(password_t, 15);
+		cin.getline(password_p, 15);
 
 		while (!file.eof())
 		{
-			file.read(reinterpret_cast<char*>(&paren), sizeof(paren)); // reading the content from the file 
-			if ((strcmp(username_p, paren.username) == 0) && (strcmp(password_p, paren.password) == 0)) // matching user input with information stored on file
+			file.read(reinterpret_cast<char*>(&paren), sizeof(paren)); //Reading the content from the file 
+			if ((strcmp(username_p, paren.username) == 0) && (strcmp(password_p, paren.password) == 0)) //Matching user input with information stored on file
 			{
-																// this will be where we put student read record function
+				cout << "\n\tLogin Successful";
+
+																//This will be where we put student read record function
 				cout << "\n\nThat's all the information in the file for the search key provided!\n";
 				flag = false;
 				break;
