@@ -159,13 +159,13 @@ void login() {
 
 		switch (login_selection)
 		{
-		case 1: teacher_registration();
+		case 1: teacher_registration(teach);
 			break;
-		case 2: parent_registration();
+		case 2: parent_registration(paren);
 			break;
-		case 3: teacher_login();
+		case 3: teacher_login(username_t, password_t);
 			break;
-		case 4: parent_login();
+		case 4: parent_login(username_p, password_p);
 			break;
 		case 5: login_done = true;
 			break;
